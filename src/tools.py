@@ -45,5 +45,33 @@ def rebuild_data_with_outliers(salinas_preds, X_positions, outlier_pos, target_s
         preds[pos[0], pos[1]] = 0
     return preds
 
-def display_label(labels, x):
+def get_label(labels, x):
     return np.where(labels == x, labels, 0)
+
+def compute_labels_correspondence(labels, preds, n_cluster):
+    l2, c2 = np.unique(labels, return_counts=True)
+    c2 = c2.argsort()
+    l, c = np.unique(preds, return_counts=True)
+    c = c.argsort()
+
+    res_labels = labels.copy().flatten()
+    res_preds = preds.copy().flatten()
+
+    j = 0
+    offset = len(l2) - len(l)
+
+    for i in range(n_cluster):
+        if i in l:
+            idx = np.argwhere(preds.flatten() == l[c[j]]).flatten()
+            res_preds[idx] = j + offset + 1
+            j += 1
+
+        idx2 = np.argwhere(labels.flatten() == l2[c2[i]]).flatten()
+        res_labels[idx2] = i + 1
+
+    zeros_idx = np.argwhere(labels.flatten() == 0).flatten()
+    res_preds[zeros_idx] = 0
+    res_preds = res_preds.reshape((preds.shape[0], preds.shape[1]))
+    res_labels = res_labels.reshape((labels.shape[0], labels.shape[1]))
+
+    return res_labels, res_preds

@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix
 from matplotlib.colors import LogNorm
 
-from tools import display_label
+from tools import get_label
 
 def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10), cmap='viridis'):
     plt.figure(figsize=figsize)
@@ -44,29 +44,29 @@ def plot_each_labels(labels, predictions, nb_labels, title_lab='Expected', title
     for x in range(begin, nb_labels - end, 2):
         plt.figure(figsize=figsize)
         plt.subplot(4, 4, 1)
-        plt.imshow(display_label(labels, x + 1), cmap=cmap)
+        plt.imshow(get_label(labels, x + 1), cmap=cmap)
         plt.title("{} label {}".format(title_lab, x + 1))
 
         plt.subplot(4, 4, 2)
-        plt.imshow(display_label(predictions, x + 1), cmap=cmap)
+        plt.imshow(get_label(predictions, x + 1), cmap=cmap)
         plt.title("{} label {}".format(title_pred, x + 1))
 
         plt.subplot(4, 4, 3)
-        plt.imshow(display_label(labels, x + 2), cmap=cmap)
+        plt.imshow(get_label(labels, x + 2), cmap=cmap)
         plt.title("{} label {}".format(title_lab, x + 2))
 
         plt.subplot(4, 4, 4)
-        plt.imshow(display_label(predictions, x + 2), cmap=cmap)
+        plt.imshow(get_label(predictions, x + 2), cmap=cmap)
         plt.title("{} label {}".format(title_pred, x + 2))
         plt.show()
 
     if nb_labels % 2 == 1 and end >= nb_labels:
         plt.figure(figsize=(20, 20))
         plt.subplot(4, 4, 1)
-        plt.imshow(display_label(labels, nb_labels), cmap=cmap)
+        plt.imshow(get_label(labels, nb_labels), cmap=cmap)
         plt.title("{} label {}".format(title_lab, nb_labels))
 
         plt.subplot(4, 4, 2)
-        plt.imshow(display_label(predictions, nb_labels), cmap=cmap)
+        plt.imshow(get_label(predictions, nb_labels), cmap=cmap)
         plt.title("{} label {}".format(title_pred, nb_labels))
         plt.show()
