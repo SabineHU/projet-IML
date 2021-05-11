@@ -20,7 +20,7 @@ def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10),
 
     plt.show()
 
-def plot_confusion_matrix(labels, preds, class_names, log=False):
+def plot_confusion_matrix(labels, preds, class_names, title='Confusion matrix', log=False):
     # Plot confusion matrix using log / linear scale
 
     # Get confusion matrix and skip background (label 0)
@@ -36,6 +36,7 @@ def plot_confusion_matrix(labels, preds, class_names, log=False):
     else:
         sn.heatmap(df, annot=True, cmap="OrRd", fmt='g')
 
+    plt.title(title)
     plt.show()
 
 def plot_each_labels(labels, predictions, nb_labels, title_lab='Expected', title_pred='Predicted', figsize=(10, 10), cmap='viridis', begin=0, end=0):

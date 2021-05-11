@@ -11,6 +11,14 @@ def remove_unclassified(preds, labels):
     final_preds = preds_flatten.reshape((preds.shape[0], preds.shape[1]))
     return final_preds
 
+def remove_unclassified_input(X, labels):
+    X_cpy = X.copy()
+    idx = np.argwhere(labels.flatten() == 0).flatten()
+    mask = np.ones(labels.flatten().shape, dtype=bool)
+    mask[idx] = False
+    arr = np.arange(labels.size)
+    return X_cpy[mask], arr[mask]
+
 def get_number_components(X):
     # first PCA with by keeping all features
     print("Fitting the PCA")
@@ -75,3 +83,13 @@ def compute_labels_correspondence(labels, preds, n_cluster):
     res_labels = res_labels.reshape((labels.shape[0], labels.shape[1]))
 
     return res_labels, res_preds
+
+def shuffle(X, labels):
+    X_cpy = X.copy()
+    labels_cpy = labels.copy()
+    arr_idx = np.arange(labels.shape[0])
+    np.random.shuffle(arr_idx) # in place
+    arr_arange = np.arange(labels.shape[0])
+    X_cpy[arr_arange] = X_cpy[arr_idx]
+    labels_cpy[arr_arange] = labels_cpy[arr_idx]
+    return X_cpy, labels_cpy, arr_idx
