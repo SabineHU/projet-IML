@@ -85,11 +85,42 @@ def compute_labels_correspondence(labels, preds, n_cluster):
     return res_labels, res_preds
 
 def shuffle(X, labels):
+    # Copy arrays
     X_cpy = X.copy()
     labels_cpy = labels.copy()
+
+    # Shuffle idx
     arr_idx = np.arange(labels.shape[0])
     np.random.shuffle(arr_idx) # in place
     arr_arange = np.arange(labels.shape[0])
+
+    # Shuffle array
     X_cpy[arr_arange] = X_cpy[arr_idx]
     labels_cpy[arr_arange] = labels_cpy[arr_idx]
     return X_cpy, labels_cpy, arr_idx
+
+def split_x_train_test(X_shuffle, count, labels, labels_argsort, size, train_split=0.75):
+    sum_ = 0
+    x_train = np.empty(size)
+    x_test = np.empty(size)
+
+    y_train = np.array([])
+    y_test = np.array([])
+
+    for cluster in labels:
+        idx = int(count[cluster] * train_split)
+
+        x_train = np.vstack((x_train, X_shuffle[labels_argsort[sum_:sum_+idx]]))
+        x_test = np.vstack((x_test, X_shuffle[labels_argsort[sum_+idx: sum_ + count[cluster]]]))
+
+        y_train = np.hstack((y_train, np.full((idx), cluster)))
+        y_test = np.hstack((y_test, np.full((count[cluster] - idx), cluster)))
+
+        print("Cluster: {}".format(cluster))
+        print("Nb total samples: {}".format(count[cluster]))
+        print("Nb samples train: {}".format(idx))
+        print("Nb samples test: {}".format(count[cluster] - idx))
+        print("---------------")
+        sum_ += count[cluster]
+
+    return x_train, x_test, y_train, y_test

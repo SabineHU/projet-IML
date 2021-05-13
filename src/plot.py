@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sn
 import pandas as pd
+import numpy as np
 
 from sklearn.metrics import confusion_matrix
 from matplotlib.colors import LogNorm
@@ -71,3 +72,16 @@ def plot_each_labels(labels, predictions, nb_labels, title_lab='Expected', title
         plt.imshow(get_label(predictions, nb_labels), cmap=cmap)
         plt.title("{} label {}".format(title_pred, nb_labels))
         plt.show()
+
+def plot_histogram(arr, figsize=(10,4), title='Histogram per classes'):
+    fig, axs = plt.subplots(figsize=figsize)
+    bar_x, bar_count = np.unique(arr, return_counts=True)
+
+    bar = axs.bar(bar_x, bar_count, 0.6)
+    axs.bar_label(bar, padding=2)
+
+    axs.set_xticks(np.arange(len(bar_x)))
+    axs.set_xticklabels(bar_x.astype(int))
+
+    axs.set_title(title)
+    plt.show()
