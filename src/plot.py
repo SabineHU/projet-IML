@@ -183,3 +183,22 @@ def plot_pca_components(X, figsize=(16, 6), title='Explained variance per PC'):
     plt.show()
 
     return pca_model
+
+def plot_histogram_compare_predict_expect(predict, expect, title='Number of predicted and expected labels'):
+    fig, axs = plt.subplots(figsize=(20, 6))
+
+    bar_x, bar_count_pred = np.unique(predict, return_counts=True)
+    bar1 = axs.bar(bar_x - 0.2, bar_count_pred, 0.4, label="Predicted")
+
+    bar_x, bar_count_exp = np.unique(expect, return_counts=True)
+    bar2 = axs.bar(bar_x + 0.2, bar_count_exp, 0.4, label="Expected")
+
+    axs.bar_label(bar1, padding=3)
+    axs.bar_label(bar2, padding=3)
+
+    axs.set_xticks(np.arange(len(bar_x)))
+    axs.set_xticklabels(bar_x)
+
+    axs.set_title(title)
+    axs.legend()
+    plt.show()

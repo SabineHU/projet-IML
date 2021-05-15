@@ -22,3 +22,7 @@
 - Hierarchical Agglomerative clustering
 
 - ISODATA
+
+## TODO
+Fix plot confusion matrix
+-> we have to display 0 label (supervised)

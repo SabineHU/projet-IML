@@ -1,0 +1,3 @@
+model,image,score_test,score_train
+OneVsOneClassifier - LinearSVC,indiana,0.6819774231218373,0.704296875
+OneVsOneClassifier - LinearSVC,salinas,0.8778163551747064,0.8810356720536067
