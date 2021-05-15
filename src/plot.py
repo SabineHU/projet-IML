@@ -8,7 +8,7 @@ from matplotlib.colors import LogNorm
 
 from tools import get_label
 
-def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10), cmap='viridis'):
+def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10), cmap='viridis', suptitle=''):
     plt.figure(figsize=figsize)
 
     plt.subplot(2, 2, 1)
@@ -19,6 +19,7 @@ def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10),
     plt.imshow(fig2, cmap=cmap)
     plt.title(title_fig2)
 
+    plt.suptitle(suptitle, fontsize=16)
     plt.show()
 
 def plot_confusion_matrix(labels, preds, class_names, title='Confusion matrix', log=False):
