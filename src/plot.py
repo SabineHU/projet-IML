@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics import confusion_matrix
+from sklearn.decomposition import PCA
 from matplotlib.colors import LogNorm
 
 from tools import get_label
@@ -142,3 +143,43 @@ def plot_correlation(X, figsize=(6, 6), title='Correlation plot as image'):
     plt.imshow(mat_coef, cmap='gray')
     plt.title(title)
     plt.show()
+
+def plot_pca_components(X, figsize=(16, 6), title='Explained variance per PC'):
+    '''
+    Compute PCA on input data
+    Display the variance according to each components
+
+    params:
+    ----------
+    X: array-like of shape (n_samples, n_features)
+
+    figsize: matplotlib figsize of the plot
+
+    title: Title of the matplotlib plot
+
+
+    returns:
+    ----------
+    pca_model: PCA model after the fit
+    '''
+    dim = X.shape[-1]
+
+    # first PCA with by keeping all features
+    pca_model = PCA()
+    pca_model.fit(X)
+
+    plt.figure(figsize=figsize)
+    plt.subplot(121)
+    plt.title(title)
+    plt.plot(np.arange(1, dim + 1), pca_model.explained_variance_, 'b')
+    plt.xlabel('PC number')
+    plt.xlim(1, dim + 1)
+    plt.subplot(122)
+    plt.title(title + ' (in log scale)')
+    plt.plot(np.arange(1, dim + 1), pca_model.explained_variance_,'b')
+    plt.xlabel('PC number')
+    plt.xlim(1, dim+1)
+    plt.yscale('log')
+    plt.show()
+
+    return pca_model
