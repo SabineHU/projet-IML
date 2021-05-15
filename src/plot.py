@@ -74,6 +74,17 @@ def plot_each_labels(labels, predictions, nb_labels, title_lab='Expected', title
         plt.show()
 
 def plot_histogram(arr, figsize=(10,4), title='Histogram per classes'):
+    '''
+    Plot of the histogram of the different classes
+
+    params:
+    ----------
+    arr: Flatten labels array-like of shape (n_samples,)
+
+    figsize: matplotlib figsize of the plot
+
+    title: Title of the matplotlib plot
+    '''
     fig, axs = plt.subplots(figsize=figsize)
     bar_x, bar_count = np.unique(arr, return_counts=True)
 
@@ -84,4 +95,49 @@ def plot_histogram(arr, figsize=(10,4), title='Histogram per classes'):
     axs.set_xticklabels(bar_x.astype(int))
 
     axs.set_title(title)
+    plt.show()
+
+def plot_bands(hsi_img, figsize=(20,10), title='Spectral Bands for specific pixels'):
+    '''
+    Plot bands for specific pixels of the image
+    Check if step bands are correlated between each other
+    Check if different pixels have similar bands
+
+    params:
+    ----------
+    hsi_img: Array-like of shape (n_pixels_row, n_pixels_col, n_features)
+        Hyperspectral image -> n_features == number of bands
+
+    figsize: matplotlib figsize of the plot
+
+    title: Title of the matplotlib plot
+    '''
+    dim = hsi_img.shape[-1]
+    plt.figure(figsize=figsize)
+    plt.subplot(122)
+    plt.plot(np.arange(1, dim + 1), hsi_img[100, 100, :], 'b')
+    plt.plot(np.arange(1, dim + 1), hsi_img[100, 120, :], 'r')
+    plt.plot(np.arange(1, dim + 1), hsi_img[120, 100, :], 'k')
+    plt.plot(np.arange(1, dim + 1), hsi_img[120, 120, :], 'g')
+    plt.xlim(1, dim + 1)
+    plt.legend(['Pixel (100, 100)', 'Pixel (100, 120)', 'Pixel (120, 100)', 'Pixel (120, 120)'], loc='upper right')
+    plt.title(title)
+    plt.show()
+
+def plot_correlation(X, figsize=(6, 6), title='Correlation plot as image'):
+    '''
+    Plot correlation between features as an image
+
+    params:
+    ----------
+    X: array-like of shape (n_samples, n_features)
+
+    figsize: matplotlib figsize of the plot
+
+    title: Title of the matplotlib plot
+    '''
+    mat_coef = np.corrcoef((X), rowvar=False)
+    plt.figure(figsize=(6,6))
+    plt.imshow(mat_coef, cmap='gray')
+    plt.title(title)
     plt.show()
