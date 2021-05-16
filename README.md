@@ -1,28 +1,17 @@
-# projet-IML
+# IML Project
 
+Objective: develop a pipeline for classification of hyperspectral images
 
-## IDEAS
+## Preprocessing
+- PCA
+- RX anomaly detection
 
-- Maybe find outliers (Usupervised algorithm -> ABOD / CBLOF / IF (PyOD))
+## Unsupervised learning
+- KMeans && MiniBatchKMeans
+- GMM
 
-- Remove outliers or put outliers in other category
-
-- Manage curse of dimensionalty
-
-## Algo to try
-
-- Mean-Shift
-
-- DBSCAN
-
-- Fuzzy C-MEAN
-
-- BIRCH
-
-- Hierarchical Agglomerative clustering
-
-- ISODATA
-
-## TODO
-Fix plot confusion matrix
--> we have to display 0 label (supervised)
+## Supervised learning
+- GaussianNaiveBayes
+- OvO LinearSVC
+- OvO SVC
+- RandomForest
