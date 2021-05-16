@@ -62,7 +62,6 @@ def plot_confusion_matrix(labels, preds, class_names, title='Confusion matrix', 
 
     # Get confusion matrix and skip background (label 0)
     matrix = confusion_matrix(labels.flatten(), preds.flatten())
-    matrix = matrix[1:, 1:]
 
     df = pd.DataFrame({class_names[i]:matrix[:,i] for i in range(len(class_names))}, index=class_names)
     fig = plt.figure(figsize = (10,6))

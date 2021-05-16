@@ -183,7 +183,7 @@ def split_x_train_test(X_shuffle, count, labels, labels_argsort, size, train_spl
         df.loc[cluster] = [cluster, idx, count[cluster] - idx, count[cluster]]
         sum_ += count[cluster]
 
-    display(df)
+    display(df.T)
     return x_train, x_test, y_train, y_test
 
 
@@ -192,12 +192,14 @@ def calculate_mean_score(labels, x_labels, y_labels, model):
 
     cols = ['Cluster', 'Nb samples', 'Score']
     df = pd.DataFrame(columns=cols)
+    df = df.astype({'Cluster': int, 'Nb samples': int, 'Score': float})
+
     for cluster in labels:
         idxs = np.argwhere(y_labels == cluster).flatten()
         score = model.score(x_labels[idxs], y_labels[idxs])
 
-        df.loc[cluster] = [cluster, y_labels[idxs].size, score]
+        df.loc[cluster] = [int(cluster), int(y_labels[idxs].size), score]
         mean_score += score
 
-    display(df)
+    display(df.T)
     return mean_score / labels.size
