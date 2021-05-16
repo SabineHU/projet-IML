@@ -2,6 +2,21 @@ import numpy as np
 from sklearn.decomposition import PCA
 
 def remove_unclassified(preds, labels):
+    '''
+    Remove unclassified data on predictions (label == 0)
+    Usefull for Clustering Unsupervised algorithm
+
+    params
+    ----------
+    preds: Predictions array of shape (n_pixels_row, n_pixels_col)
+
+    labels: Labels array of shape (n_pixels_row, n_pixels_col)
+
+
+    returns
+    ----------
+    final_preds: Final predictions without unclassified data of shape (n_pixels_row, n_pixels_col)
+    '''
     preds_cpy = preds.copy()
     zeros_idx = np.argwhere(labels.flatten() == 0).flatten()
     preds_cpy += 1
@@ -11,6 +26,22 @@ def remove_unclassified(preds, labels):
     return final_preds
 
 def remove_unclassified_input(X, labels):
+    '''
+    Remove unclassified data from the input (label == 0)
+
+    params
+    ----------
+    X: Input data, array of shape (n_samples, n_features)
+
+    labels: Labels array of shape (n_pixels_row, n_pixels_col)
+
+
+    returns
+    ----------
+    new_X: New data with classified data of shape (n_samples_usefull, n_features)
+
+    arr_idx: Indexes of usefull data in the input image, array of shape (n_samples_usefull,)
+    '''
     X_cpy = X.copy()
     idx = np.argwhere(labels.flatten() == 0).flatten()
     mask = np.ones(labels.flatten().shape, dtype=bool)
@@ -27,11 +58,41 @@ def get_number_components(X):
     return len(var_cumsum[var_cumsum <= 0.9991])
 
 def extract_features(X, n_components):
+    '''
+    Extract features using PCA
+
+    params
+    ----------
+    X: Input data of shape (n_samples, n_features)
+
+    n_components: Number of components to extract (int)
+
+
+    returns
+    ----------
+    reduced_X: New data with few dimensions, after features extraction
+        array of shape (n_samples, n_components)
+    '''
     pca_model = PCA(n_components=n_components)
     pca_model.fit(X)
     return pca_model.transform(X)
 
 def copy_without_outlier(X, outlier_pos):
+    '''
+    Copy data without outliers
+    Outliers can be computed using RX anomaly detector for example
+
+    params
+    ----------
+    X: Input data of shape (n_pixels_row, n_pixels_col)
+
+    outlier_pos: Outlier positions array of shape (n_outliers,)
+
+
+    returns
+    ----------
+    new_X: New data without outliers of shape (n_pixels_row-n_outliers, n_pixels_col-n_outliers)
+    '''
     l = []
     X_positions = []
     for i in range(X.shape[0]):
