@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
 
 def remove_unclassified(preds, labels):
@@ -167,6 +168,9 @@ def split_x_train_test(X_shuffle, count, labels, labels_argsort, size, train_spl
     y_train = np.array([])
     y_test = np.array([])
 
+    cols = ['Cluster', 'Nb samples train', 'Nb samples test', 'Nb total samples']
+    df = pd.DataFrame(columns=cols)
+
     for cluster in labels:
         idx = int(count[cluster] * train_split)
 
@@ -176,11 +180,24 @@ def split_x_train_test(X_shuffle, count, labels, labels_argsort, size, train_spl
         y_train = np.hstack((y_train, np.full((idx), cluster)))
         y_test = np.hstack((y_test, np.full((count[cluster] - idx), cluster)))
 
-        print("Cluster: {}".format(cluster))
-        print("Nb total samples: {}".format(count[cluster]))
-        print("Nb samples train: {}".format(idx))
-        print("Nb samples test: {}".format(count[cluster] - idx))
-        print("---------------")
+        df.loc[cluster] = [cluster, idx, count[cluster] - idx, count[cluster]]
         sum_ += count[cluster]
 
+    display(df)
     return x_train, x_test, y_train, y_test
+
+
+def calculate_mean_score(labels, x_labels, y_labels, model):
+    mean_score = 0
+
+    cols = ['Cluster', 'Nb samples', 'Score']
+    df = pd.DataFrame(columns=cols)
+    for cluster in labels:
+        idxs = np.argwhere(y_labels == cluster).flatten()
+        score = model.score(x_labels[idxs], y_labels[idxs])
+
+        df.loc[cluster] = [cluster, y_labels[idxs].size, score]
+        mean_score += score
+
+    display(df)
+    return mean_score / labels.size
