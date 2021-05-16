@@ -10,6 +10,25 @@ from matplotlib.colors import LogNorm
 from tools import get_label
 
 def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10), cmap='viridis', suptitle=''):
+    '''
+    Plot two figures at the same time (next to each other)
+
+    params
+    ----------
+    fig1: First image to plot of shape (n_pixels_row, n_pixels_col)
+
+    fig2: Second image to plot of shape (n_pixels_row, n_pixels_col)
+
+    title_fig1: Title of the fist Image
+
+    title_fig2: Title of the second Image
+
+    figsize: Matplotlib figsize
+
+    cmap: Matplotlib cmap (change color display)
+
+    suptitle: Matplotlib subtitle
+    '''
     plt.figure(figsize=figsize)
 
     plt.subplot(2, 2, 1)
@@ -24,6 +43,21 @@ def plot_two_figures(fig1, fig2, title_fig1='', title_fig2='', figsize=(10, 10),
     plt.show()
 
 def plot_confusion_matrix(labels, preds, class_names, title='Confusion matrix', log=False):
+    '''
+    Plot the confusion matrix
+
+    params
+    ----------
+    labels: Labels array of shape (n_samples,)
+
+    preds: Predictions array of shape (n_samples,)
+
+    class_names: Names of the different classes
+
+    title: Title of the plot
+
+    log: Logarithm plot
+    '''
     # Plot confusion matrix using log / linear scale
 
     # Get confusion matrix and skip background (label 0)
@@ -43,6 +77,29 @@ def plot_confusion_matrix(labels, preds, class_names, title='Confusion matrix', 
     plt.show()
 
 def plot_each_labels(labels, predictions, nb_labels, title_lab='Expected', title_pred='Predicted', figsize=(10, 10), cmap='viridis', begin=0, end=0):
+    '''
+    Plot Predictions image and Labels image for each label
+
+    params
+    ----------
+    labels: Labels array of shape (n_pixels_row, n_pixels_col)
+
+    predictions: Predictions array of shape (n_pixels_row, n_pixels_col)
+
+    nb_labels: Number of labels
+
+    title_lab: Title of the labels images
+
+    title_pred: Title of the predictions images
+
+    figsize: Matplotlib figsize
+
+    cmap: Matplotlib cmap (change plot color)
+
+    begin: Plot labels from begin index (int)
+
+    end: Plot labels to 'nb_labels - end' index (int)
+    '''
 
     # Plot each label from begin to end
     for x in range(begin, nb_labels - end, 2):
@@ -149,7 +206,7 @@ def plot_pca_components(X, figsize=(16, 6), title='Explained variance per PC'):
     Compute PCA on input data
     Display the variance according to each components
 
-    params:
+    params
     ----------
     X: array-like of shape (n_samples, n_features)
 
@@ -158,7 +215,7 @@ def plot_pca_components(X, figsize=(16, 6), title='Explained variance per PC'):
     title: Title of the matplotlib plot
 
 
-    returns:
+    returns
     ----------
     pca_model: PCA model after the fit
     '''
@@ -185,6 +242,17 @@ def plot_pca_components(X, figsize=(16, 6), title='Explained variance per PC'):
     return pca_model
 
 def plot_histogram_compare_predict_expect(predict, expect, title='Number of predicted and expected labels'):
+    '''
+    Plot histogram and compare to predictions histogram
+
+    params
+    ----------
+    predict: Predictions array of shape (n_samples,)
+
+    expect: Expectations array of shape (n_samples,)
+
+    title: Matplotlib title
+    '''
     fig, axs = plt.subplots(figsize=(20, 6))
 
     bar_x, bar_count_pred = np.unique(predict, return_counts=True)
